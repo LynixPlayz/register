@@ -141,12 +141,13 @@ var reserved = require("./util/reserved.json");
 for (var i = 0; i < reserved.length; i++) {
     var subdomainName = reserved[i];
     if (
-        subdomainName !== "autoconfig" &&
-        subdomainName !== "autodiscover" &&
+        subdomainName !== "data" &&
+        subdomainName !== "docs" &&
         subdomainName !== "ns1" &&
         subdomainName !== "ns2" &&
         subdomainName !== "ns3" &&
         subdomainName !== "ns4" &&
+        subdomainName !== "raw" &&
         subdomainName !== "www"
     ) {
         records.push(A(subdomainName, IP("192.0.2.1"), CF_PROXY_ON));
@@ -161,7 +162,6 @@ var ignored = [
     IGNORE("*._domainkey", "TXT"),
     IGNORE("@", "*"),
     IGNORE("_acme-challenge", "TXT"),
-    IGNORE("_autodiscover._tcp", "SRV"),
     IGNORE("_discord", "TXT"),
     IGNORE("_dmarc", "TXT"),
     IGNORE("_gh-is-a-dev-o", "TXT"),
@@ -169,10 +169,13 @@ var ignored = [
     IGNORE("_github-pages-challenge-is-a-dev", "TXT"),
     IGNORE("_github-pages-challenge-is-a-dev.**", "TXT"),
     IGNORE("_psl", "TXT"),
-    IGNORE("autoconfig", "CNAME"),
-    IGNORE("autodiscover", "CNAME"),
-    IGNORE("ns[1-4]", "A,AAAA"),
-    IGNORE("www", "*")
+    IGNORE("ns[1-4]", "A,AAAA")
 ];
+
+var internal = require("./util/internal.json");
+
+internal.forEach(function(subdomain) {
+    ignored.push(IGNORE(subdomain, "*"));
+});
 
 D(domainName, registrar, dnsProvider, records, ignored);
