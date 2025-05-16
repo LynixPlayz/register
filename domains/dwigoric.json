@@ -4,6 +4,9 @@
     "discord": "295391820744228867"
   },
   "records": {
-    "CNAME": "dwigoric.pages.dev"
+    "URL": "https://dwigoric.dev"
+  },
+  "services": {
+    "discord": "dh=0dbe5579faf14819c58607e423f955be71311f60"
   }
 }
